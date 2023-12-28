@@ -6,7 +6,7 @@ const HOSPITAL = require('../model/hospital')
 exports.addDoctor = async function (req, res, next) {
   try {
     // console.log('Controller',req.file);
-  console.log(req.body);
+  console.log(req.body.experties);
     req.body.image = req?.file?.filename
     if (!req.body.doctorName || !req.body.doctorCode || !req.body.departmentName || !req.body.departmentCode || !req.body.designation || !req.body.experties || !req.body.specialities || !req.body.slug || !req.body.location || !req.body.description || !req.body.shortDescription || !req.body.experienceInfo || !req.body.awardAndAchivementsInfo || !req.body.talkPublicationInfo || !req.body.languageInfo || !req.body.educationInfo || !req.body.fellowShipInfo || !req.body.metaTitle || !req.body.ogMetaTitle || !req.body.metaDescription || !req.body.ogMetaDescription || !req.body.metaTags || !req.body.price || !req.body.image || !req.body.status || !req.body.availabileforappointment) {
       throw new Error('Please Enter Valid Feild')
@@ -15,6 +15,7 @@ exports.addDoctor = async function (req, res, next) {
     const experties = JSON.parse(req.body.experties);
 
     const cate = experties.map((el) => el);
+   
 
     const checkCategory = async (el) => {
      
@@ -51,8 +52,13 @@ exports.addDoctor = async function (req, res, next) {
         throw new Error('Hospital is not added');
     }
   }
-        req.body.hospital = JSON.parse(req.body.hospital) 
-        req.body.experties = JSON.parse(req.body.experties); 
+   
+  
+
+        // req.body.hospital = JSON.parse(req.body.hospital) 
+        // req.body.experties = JSON.parse(req.body.experties); 
+
+        // console.log(req.body);
         
     const data = await DOCTOR.create(req.body)
     res.status(201).json({
@@ -103,9 +109,12 @@ exports.updateDoctor = async function (req, res, next) {
     if (req.file) {
       data.image = req.file.filename
     }
+
+
     if(data.experties){
-    const experties = data.experties;
-    const cate = experties.map((el) => el);
+    const experties = JSON.parse(data.experties);
+    // console.log(experties);
+    const cate = experties?.map((el) => el);
     // console.log('category', cate);
     const checkCategory = async (el) => {
         const cat = await DOCTORCATEGORY.find({ name : el });
@@ -123,15 +132,14 @@ exports.updateDoctor = async function (req, res, next) {
     if(data.specialities){
     let experties = data.experties
     const chekspecialist = experties.includes(data.specialities)
-    // console.log(chekspecialist);
     if (chekspecialist === false) {
       throw new Error('Invalid add value')
     }
   }
   if(data.hospital){
-    const hospital = data.hospital;
+    const hospital = JSON.parse(data.hospital);
+
     const checkHos = hospital.map((el) => el);
-    // console.log('category', cate);
     const checkHospital = async (el) => {
         const cat = await HOSPITAL.find({ hospitalname : el });
         return cat.length > 0;
@@ -150,8 +158,7 @@ exports.updateDoctor = async function (req, res, next) {
     }
   }
 
-    // console.log("Data",req.body.bookingAvailabilityInformation);
-    // console.log(req.body);
+    
     const udata = await DOCTOR.findByIdAndUpdate(req.params.id, data)    
     res.status(200).json({
       status: "Sucessfull",

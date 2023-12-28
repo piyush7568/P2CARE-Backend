@@ -12,15 +12,15 @@ exports.addHospital = async function (req, res, next) {
         // if (!req.body.hospitalname || !req.body.hospitaladdress || !req.body.description || !req.body.openingtime || !req.body.closingtime || !req.body.shortdescription || !req.body.category || !req.body.service || !req.body.hospitallogo || !req.body.status) {
         //     throw new Error("Please fill valid data")
         // }
-        // req.body.hospitallogo = req.file.filename
+        req.body.hospitallogo = req.file.filename
         if (!req.body.hospitalname || !req.body.hospitaladdress || !req.body.description || !req.body.openingtime || !req.body.closingtime || !req.body.shortdescription || !req.body.category || !req.body.service || !req.body.status) {
             throw new Error("Please fill valid data")
         }
-        const category = req.body.category;
+        const category = JSON.parse(req.body.category);
         const cate = category.map((el) => el);
         // console.log('category', cate);
         const checkCategory = async (el) => {
-            const cat = await DOCTORCATEGORY.find({ name: el });
+            const cat = await DOCTORCATEGORY.find({ name: el.name });
             return cat.length > 0;
         };
         const isValidName = await Promise.all(
@@ -30,12 +30,12 @@ exports.addHospital = async function (req, res, next) {
         if (!isValidName.every(Boolean)) {
             throw new Error('Invalid add category');
         }
-        let service = req.body.service;
+        let service = JSON.parse(req.body.service);
         console.log(service);
         const serv = service?.map((el) => el);
         console.log('service', serv);
         const checkService = async (el) => {
-            const ser = await SERVICE.find({ title: el });
+            const ser = await SERVICE.find({ title: el.title });
             return ser.length > 0;
         };
         const isValidtitle = await Promise.all(
@@ -93,11 +93,11 @@ exports.updateHospital = async function (req, res, next) {
             updata.hospitallogo = req.file.filename
         }
         if(updata.category){
-        const category = updata.category;
+        const category = JSON.parse(updata.category);
         const cate = category.map((el) => el);
         console.log('category', cate);
         const checkCategory = async (el) => {
-            const cat = await DOCTORCATEGORY.find({ name: el });
+            const cat = await DOCTORCATEGORY.find({ name: el.name });
             return cat.length > 0;
         };
         const isValidName = await Promise.all(
@@ -109,13 +109,13 @@ exports.updateHospital = async function (req, res, next) {
         }
     }
         if(updata.service){
-        let service = updata.service
+        let service = JSON.parse(updata.service)
         const serv = service.map((el) => el);
-        // console.log('service', serv);
         const checkService = async (el) => {
-            const ser = await SERVICE.find({ title: el });
+            const ser = await SERVICE.find({ title: el.title });
             return ser.length > 0;
         };
+        console.log(checkService);
         const isValidtitle = await Promise.all(
             serv.flat().map(async el => await checkService(el))
         );
@@ -125,7 +125,7 @@ exports.updateHospital = async function (req, res, next) {
         }
     }
     if(updata.status){
-        if (updata.status && !['Publish', 'Draft'].includes(updata.status)) {
+        if (updata.status && !['publish', 'draft'].includes(updata.status)) {
           throw new Error('Invalid status value');
         }
       }

@@ -3,8 +3,9 @@ const TIME = require('../model/time')
 //=======================addTime====================
 
 exports.addTime = async function (req, res, next) {
+    console.log(req.body);
     try {
-        if (!req.body.Time || !req.body.Status) {
+        if (!req.body.Time || !req.body.status) {
             throw new Error("Please fill valid data")
         }
         console.log(req.body);
