@@ -6,7 +6,7 @@ const asignDoctorSchema = new Schema({
   "hospital": String,
   "category": String,
   "doctor": String,
-  "ammount": Number,
+  "amount": Number,
 });
 
 const ASIGNDOCTOR = mongoose.model('asigndoctor', asignDoctorSchema);

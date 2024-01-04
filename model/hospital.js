@@ -10,7 +10,16 @@ const hospitalSchema = new Schema({
   closingtime: String,
   shortdescription: String,
   service: [String],
+  // service: {
+  //   type: mongoose.Types.ObjectId,
+  //   ref: "service",
+  // },
+
   category: [String],
+  // category: {
+  //   type: mongoose.Types.ObjectId,
+  //   ref: "doctorcategory",
+  // },
   hospitallogo: String,
   status: {
     type: String,

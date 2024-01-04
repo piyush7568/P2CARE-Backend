@@ -7,20 +7,28 @@ const SERVICE = require('../model/service');
 //====================addHospital=======================
 exports.addHospital = async function (req, res, next) {
     try {
-        console.log(req.body);
+       
         // req.body.hospitallogo = req.file.filename
         // if (!req.body.hospitalname || !req.body.hospitaladdress || !req.body.description || !req.body.openingtime || !req.body.closingtime || !req.body.shortdescription || !req.body.category || !req.body.service || !req.body.hospitallogo || !req.body.status) {
         //     throw new Error("Please fill valid data")
         // }
-        req.body.hospitallogo = req.file.filename
-        if (!req.body.hospitalname || !req.body.hospitaladdress || !req.body.description || !req.body.openingtime || !req.body.closingtime || !req.body.shortdescription || !req.body.category || !req.body.service || !req.body.status) {
-            throw new Error("Please fill valid data")
-        }
+
+
+
+        // req.body.hospitallogo = req.file.filename
+        // if (!req.body.hospitalname || !req.body.hospitaladdress || !req.body.description || !req.body.openingtime || !req.body.closingtime || !req.body.shortdescription || !req.body.category || !req.body.service || !req.body.status) {
+        //     throw new Error("Please fill valid data")
+        // }
+
+
+
         const category = JSON.parse(req.body.category);
-        const cate = category.map((el) => el);
-        // console.log('category', cate);
+        // const category = req.body.category
+        const cate = category.map((el) => el.name);
+        console.log('category', cate);
+
         const checkCategory = async (el) => {
-            const cat = await DOCTORCATEGORY.find({ name: el.name });
+            const cat = await DOCTORCATEGORY.find({ name: el });
             return cat.length > 0;
         };
         const isValidName = await Promise.all(
@@ -31,11 +39,12 @@ exports.addHospital = async function (req, res, next) {
             throw new Error('Invalid add category');
         }
         let service = JSON.parse(req.body.service);
-        console.log(service);
-        const serv = service?.map((el) => el);
+        // let service = req.body.service
+       
+        const serv = service?.map((el) => el.title);
         console.log('service', serv);
         const checkService = async (el) => {
-            const ser = await SERVICE.find({ title: el.title });
+            const ser = await SERVICE.find({ title: el });
             return ser.length > 0;
         };
         const isValidtitle = await Promise.all(
@@ -46,7 +55,12 @@ exports.addHospital = async function (req, res, next) {
             throw new Error('Invalid add service');
         }
 
-        // console.log(req.body);
+
+        req.body.category = cate;
+        req.body.service = serv 
+        console.log(req.body);
+
+
         const data = await HOSPITAL.create(req.body)
         res.status(201).json({
             status: "Sucessfull",

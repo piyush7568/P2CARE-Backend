@@ -7,7 +7,7 @@ const DOCTOR = require('../model/doctor')
 
 exports.asignDoctor =  async function (req, res, next) {
     try {
-        if(!req.body.hospital || !req.body.category || !req.body.doctor || !req.body.ammount){
+        if(!req.body.hospital || !req.body.category || !req.body.doctor || !req.body.amount){
             throw new Error ('please enter feild')
         }
         const checkHospital = await HOSPITAL.findOne({ hospitalname : req.body.hospital })
@@ -16,6 +16,8 @@ exports.asignDoctor =  async function (req, res, next) {
         }
         let category = req.body.category
         const checkCat = checkHospital.category
+        console.log(checkHospital);
+// console.log(checkCat);
         const checkCategory =  checkCat.includes(category)
         if(checkCategory === false){
           throw new Error ('Category is not available')
