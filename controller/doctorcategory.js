@@ -8,14 +8,14 @@ exports.newCategory = async function (req, res, next) {
     console.log(req.file);
     
     
-    req.body.image = req.file?.originalname  
+    req.body.image = req.file?.filename  
 
       
     if (!req.body.name || !req.body.image || !req.body.status) {
 
       throw new Error("Please fill valid data")
     }
-    // console.log(req.body);
+    console.log(req.body);
     const data = await DOCTORCATEGORY.create(req.body)
     res.status(201).json({
       status: "Sucessfull",
@@ -61,8 +61,9 @@ exports.updateCategory = async function (req, res, next) {
       throw new Error('Invalid status value');
     }
   }
-    const udata = await DOCTORCATEGORY.findByIdAndUpdate(req.params.id, req.body)
-    console.log(udata);
+  console.log(data);
+    const udata = await DOCTORCATEGORY.findByIdAndUpdate(req.params.id, data);
+    // console.log(udata);
     res.status(200).json({
       status: "Suceess",
       message: "category updated",
@@ -97,7 +98,7 @@ exports.deleteCategory = async function (req, res, next) {
 
 exports.searchCategory = async function (req, res, next) {
   try {
-    const data = await DOCTORCATEGORY.find({ Name: { "$regex": req.params.name, '$options': 'i' } })
+    const data = await DOCTORCATEGORY.find({ name: { "$regex": req.params.name, '$options': 'i' } })
 
     res.status(200).json({
       status: "Successfull",

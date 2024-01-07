@@ -15,10 +15,12 @@ exports.asignDoctor =  async function (req, res, next) {
             throw new Error('hospital is not available')
         }
         let category = req.body.category
-        const checkCat = checkHospital.category
-        console.log(checkHospital);
-// console.log(checkCat);
-        const checkCategory =  checkCat.includes(category)
+        // console.log(category);
+        const checkCat = JSON.parse(checkHospital.category)
+        const newCat = checkCat.map((el)=>el.name)
+        
+        const checkCategory = newCat.includes(category);
+        console.log(checkCategory);
         if(checkCategory === false){
           throw new Error ('Category is not available')
         }

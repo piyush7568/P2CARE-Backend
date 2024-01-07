@@ -15,10 +15,10 @@ exports.addHospital = async function (req, res, next) {
 
 
 
-        // req.body.hospitallogo = req.file.filename
-        // if (!req.body.hospitalname || !req.body.hospitaladdress || !req.body.description || !req.body.openingtime || !req.body.closingtime || !req.body.shortdescription || !req.body.category || !req.body.service || !req.body.status) {
-        //     throw new Error("Please fill valid data")
-        // }
+        req.body.hospitallogo = req.file.filename
+        if (!req.body.hospitalname || !req.body.hospitaladdress || !req.body.description || !req.body.openingtime || !req.body.closingtime || !req.body.shortdescription || !req.body.category || !req.body.service || !req.body.status) {
+            throw new Error("Please fill valid data")
+        }
 
 
 
@@ -143,6 +143,7 @@ exports.updateHospital = async function (req, res, next) {
           throw new Error('Invalid status value');
         }
       }
+    req.body.hospitallogo = updata.hospitallogo; 
         // console.log('body',req.body);
         const udata = await HOSPITAL.findByIdAndUpdate(req.params.id,req.body )
         // console.log(udata);

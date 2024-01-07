@@ -11,10 +11,9 @@ const storage = multer.diskStorage({
     cb(null, './public/servicecategory')
   },
   filename: function (req, file, cb) {
-    console.log(file);
-    console.log(req);
+    
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-    cb(null, file.fieldname + '-' + uniqueSuffix + file.originalname)
+    cb(null, file.fieldname + "-" + uniqueSuffix + file.originalname);
   }
 })
 

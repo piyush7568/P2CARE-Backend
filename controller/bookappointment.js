@@ -10,29 +10,29 @@ exports.book = async function (req, res, next) {
         if (!req.body.date || !req.body.time || !req.body.name || !req.body.email || !req.body.gender || !req.body.message || !req.body.transactionid) {
             throw new Error('Enter the details')
         }
-        // const isValidDoctor = await DOCTOR.exists({ _id: req.body.doctor });
-        // if (!isValidDoctor) {
-        //     throw new Error('doctor is not available')
-        // }
+        const isValidDoctor = await DOCTOR.exists({ _id: req.body.doctor });
+        if (!isValidDoctor) {
+            throw new Error('doctor is not available')
+        }
 
-        // const dateObject = new Date(req.body.date);
-        // console.log(dateObject.toLocaleDateString('en-US', { weekday: 'long' }));
+        const dateObject = new Date(req.body.date);
+        console.log(dateObject.toLocaleDateString('en-US', { weekday: 'long' }));
 
-        // const isTimeAvailable = await DOCTORAVAILABILITY.exists({
-        //     'doctorid': req.body.doctor,
-        //     "bookingavailabilityInformation.day": dateObject.toLocaleDateString('en-US', { weekday: 'long' }),
-        //     "bookingavailabilityInformation.available": true,
-        //     "bookingavailabilityInformation.bookingtime": { $in: [req.body.time] },
-        // });
-        // console.log(isTimeAvailable);
+        const isTimeAvailable = await DOCTORAVAILABILITY.exists({
+            'doctorid': req.body.doctor,
+            "bookingavailabilityInformation.day": dateObject.toLocaleDateString('en-US', { weekday: 'long' }),
+            "bookingavailabilityInformation.available": true,
+            "bookingavailabilityInformation.bookingtime": { $in: [req.body.time] },
+        });
+        console.log(isTimeAvailable);
 
-        // if (!isTimeAvailable) {
-        //     return res.status(400).json({
-        //         status: 'fail',
-        //         message: 'Invalid time for the doctor on the specified date',
-        //     })
-        // }
-        // console.log(req.body);
+        if (!isTimeAvailable) {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Invalid time for the doctor on the specified date',
+            })
+        }
+        console.log(req.body);
         const data = await BOOKAPPOINTMENT.create(req.body)
         res.status(201).json({
             status: "sucessfull",

@@ -113,12 +113,12 @@ exports.updateDoctor = async function (req, res, next) {
 
     if(data.experties){
     const experties = JSON.parse(data.experties);
-    // console.log(experties);
+    
     const cate = experties?.map((el) => el);
     // console.log('category', cate);
     const checkCategory = async (el) => {
-        const cat = await DOCTORCATEGORY.find({ name : el });
-        return cat.length > 0;
+        const cat = await DOCTORCATEGORY.find({ name : el.name });
+        return  cat.length > 0;
     };
     const isValidName = await Promise.all(
         cate.flat().map(async el => await checkCategory(el))
@@ -141,7 +141,7 @@ exports.updateDoctor = async function (req, res, next) {
 
     const checkHos = hospital.map((el) => el);
     const checkHospital = async (el) => {
-        const cat = await HOSPITAL.find({ hospitalname : el });
+        const cat = await HOSPITAL.find({ hospitalname: el.hospitalname });
         return cat.length > 0;
     };
     const isValidhospital = await Promise.all(
@@ -212,7 +212,7 @@ exports.searchDoctor = async function (req, res, next) {
 //=====================searchDoctorbyId=====================
 exports.searchDoctorById = async function (req, res, next) { 
   try {
-    const data = await DOCTOR.findById(req.params.id)
+    const data = await DOCTOR.find({_id:req.params.id})
     res.status(200).json({
       status : "successfull",
       message : "Data is found",

@@ -37,7 +37,7 @@ router.delete('/deletedoctor/:id',userController.CHECKJWT,doctorController.delet
 router.get('/searchdoctor/:name',doctorController.searchDoctor);
 
 //searchDoctorbyId
-router.get('/searchdoctorbyid/:id',doctorController.searchDoctorById);
+router.get("/searchdoctorbyid/:id", doctorController.searchDoctorById);
 
 
 

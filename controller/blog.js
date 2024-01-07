@@ -10,11 +10,12 @@ exports.newBlog = async function (req, res, next) {
 
         file1.map((el) => {
             // console.log(el.originalname);
-            req.body.blogimage = el.originalname
+            req.body.blogimage = el.filename;
+
         })
         file2.map((el) => {
             // console.log(el.originalname);
-            req.body.ogmetaimage = el.originalname
+            req.body.ogmetaimage = el.filename;
         })
 
         if (!req.body.title || !req.body.blogcontent || !req.body.author || !req.body.slug || !req.body.blogtags || !req.body.metatag || !req.body.metatitle || !req.body.ogmetatitle || !req.body.metadescription || !req.body.ogmetadescription || !req.body.blogimage || !req.body.ogmetaimage || !req.body.category || !req.body.status) {
@@ -71,14 +72,12 @@ exports.updateBlog = async function (req, res, next) {
             
             if(file1){
             file1.map((el) => {
-                // console.log(el.originalname);
-                req.body.blogimage = el.originalname
+                req.body.blogimage = el.filename;
             })
         }
         if(file2){
             file2.map((el) => {
-                // console.log(el.originalname);
-                req.body.ogmetaimage = el.originalname
+                req.body.ogmetaimage = el.filename;
             })
         }
     
@@ -87,13 +86,16 @@ exports.updateBlog = async function (req, res, next) {
         if (!checkCategory) {
             throw new Error('please select valid category')
         }   
-        // console.log(data);
-        const udata = await BLOG.findByIdAndUpdate(req.params.id,data)
+        
+        const udata = await BLOG.findByIdAndUpdate(req.params.id, req.body);
+
         res.status(200).json({
             status : "Succesful",
             message: "Data is updated",
             udata
         })
+
+
     } catch (error) {
         res.status(404).json({
             status: "Fail",

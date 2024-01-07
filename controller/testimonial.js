@@ -67,6 +67,7 @@ exports.addTestimonial = async function(req, res, next) {
         if(req.file){
           req.body.image = req.file.filename
         }
+        console.log(req.body);
       const data = await TESTIMONIAL.findByIdAndUpdate(req.params.id, req.body)
       res.status(200).json({
         status: "Suceess",

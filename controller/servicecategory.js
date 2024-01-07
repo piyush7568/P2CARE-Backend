@@ -4,7 +4,7 @@ const SERVICECATEGORY = require('../model/servicecategory')
 exports.newCategory = async function (req, res, next) {
   try {
     // console.log(req.file);
-    req.body.Icon = req.file.originalname
+    req.body.Icon = req.file.filename;
     // console.log(req.body);
     if (!req.body.Name || !req.body.ForService || !req.body.Icon || !req.body.status) {
       throw new Error("Please fill valid data")
@@ -48,7 +48,7 @@ exports.updateCategory = async function (req, res, next) {
     const getData = await SERVICECATEGORY.findById(req.params.id)
     var data = { ...getData._doc, ...req.body }
     if (req.file) {
-      data.image = req.file.filename
+      data.Icon = req.file.filename
     }
     if(data.ForService){
       if (data.ForService && !['Doctor', 'Hospital'].includes(data.ForService)) {
@@ -60,6 +60,9 @@ exports.updateCategory = async function (req, res, next) {
         throw new Error('Invalid status value');
       }
     }
+
+    req.body.Icon = data.Icon; 
+    console.log(req.body);
    const udata = await SERVICECATEGORY.findByIdAndUpdate(req.params.id, req.body)
     res.status(200).json({
       status: "Suceess",
