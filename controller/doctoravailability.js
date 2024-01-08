@@ -7,10 +7,8 @@ const DOCTORAVAILABILITY = require('../model/doctoravailability')
 exports.availability = async function (req, res, next){
 try {
     var bookdata = req.body.bookingavailabilityInformation 
-    // console.log(bookdata);
-    // const bookingAvailabilityInformation = bookdata.bookingavailabilityInformation;
+    const bookingAvailabilityInformation = bookdata.bookingavailabilityInformation;
     const time = bookdata.map(info => info.bookingtime);
-    // console.log("Time",time);
     const checkTime = async (el) => {
       const timeResult = await TIME.find({ Time: el });
       return timeResult.length > 0;
@@ -22,7 +20,8 @@ try {
     if (!isValidTime.every(Boolean)) {
       throw new Error('Invalid add value');
     }
-    // console.log(req.body);
+
+    // res.send(req.body);
     const data = await DOCTORAVAILABILITY.create(req.body)
    res.status(201).json({
     status : "successful",
@@ -30,6 +29,7 @@ try {
     data
 
    })
+  
 } catch (error) {
   // console.error(error);
   res.status(500).json({
@@ -76,12 +76,7 @@ exports.updatAvailable =  async function (req, res, next) {
       var bookdata = data.bookingavailabilityInformation 
       // console.log(bookdata);
       // const bookingAvailabilityInformation = bookdata.bookingavailabilityInformation;
-      const time = bookdata.map(info => info.bookingtime);
-      // console.log("Time",time);
-      const checkTime = async (el) => {
-        const timeResult = await TIME.find({ Time: el });
-        return timeResult.length > 0;
-      };
+      includes;
       const isValidTime = await Promise.all(
         time.flat().map(async el => await checkTime(el))
       );
