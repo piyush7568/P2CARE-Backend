@@ -5,15 +5,17 @@ const bcrypt = require('bcrypt')
 //=========================addNewpatient=================
 exports.addPatient = async function (req, res, next) {
     try {
-        if (!req.body.name || !req.body.username || !req.body.email || !req.body.phone || !req.body.password || !req.body.passwordconfirm) {
+        // if (!req.body.name || !req.body.username || !req.body.email || !req.body.phone || !req.body.password || !req.body.passwordconfirm) {
+        //     throw new Error('Please Enter Valid Feild')
+        if (!req.body.name || !req.body.username || !req.body.email || !req.body.phone ) {
             throw new Error('Please Enter Valid Feild')
         }
-        if (req.body.password === req.body.passwordconfirm) {
-            req.body.password = await bcrypt.hash(req.body.password, 10)
-            req.body.passwordconfirm = await bcrypt.hash(req.body.passwordconfirm, 10)
-        }else{
-            throw new Error('please enter currectpassword')
-        }
+        // if (req.body.password === req.body.passwordconfirm) {
+        //     req.body.password = await bcrypt.hash(req.body.password, 10)
+        //     req.body.passwordconfirm = await bcrypt.hash(req.body.passwordconfirm, 10)
+        // }else{
+        //     throw new Error('please enter currectpassword')
+        // }
         // console.log(req.body);
         const data = await PATIENT.create(req.body)
         res.status(201).json({
@@ -51,14 +53,14 @@ exports.allPatient = async function (req, res, next) {
 //=========================updatePatient==============
 exports.editPatient = async function (req, res, next) {
     try {
-        if(req.body.password){
-        if (req.body.password === req.body.passwordconfirm) {
-            req.body.password = await bcrypt.hash(req.body.password, 10)
-            req.body.passwordconfirm = await bcrypt.hash(req.body.passwordconfirm, 10)
-        }else{
-            throw new Error('please enter currectpassword')
-        }
-    }
+        // if(req.body.password){
+        // if (req.body.password === req.body.passwordconfirm) {
+        //     req.body.password = await bcrypt.hash(req.body.password, 10)
+        //     req.body.passwordconfirm = await bcrypt.hash(req.body.passwordconfirm, 10)
+        // }else{
+        //     throw new Error('please enter currectpassword')
+        // }
+    // }
         // console.log(req.body);
         const data = await PATIENT.findByIdAndUpdate(req.params.id,req.body)
         res.status(201).json({

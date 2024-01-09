@@ -6,6 +6,7 @@ const DOCTORAVAILABILITY = require('../model/doctoravailability')
 //====================doctorAvailable================
 exports.availability = async function (req, res, next){
 try {
+  console.log(req.body);
     var bookdata = req.body.bookingavailabilityInformation 
     const bookingAvailabilityInformation = bookdata.bookingavailabilityInformation;
     const time = bookdata.map(info => info.bookingtime);
@@ -106,12 +107,14 @@ exports.updatAvailable =  async function (req, res, next) {
 //================deleteAvailability=======================
 
 exports.deleteAvailable =  async function (req, res, next) {
+  ;
   try {
-      await DOCTORAVAILABILITY.findByIdAndDelete(req.params.id)
+     const data = await DOCTORAVAILABILITY.deleteMany();
     res.status(200).json({
-      status : "successfull",
-      message : "deleted successfull",
-    })
+      status: "successfull",
+      message: "deleted successfull",
+      data,
+    });
   } catch (error) {
     res.status(500).json({
       status :  "fail", 

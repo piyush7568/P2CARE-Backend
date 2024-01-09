@@ -12,8 +12,8 @@ const patientSchema = new Schema({
   "city" : String,
   "zipcode" : Number,
   "address" : String,
-  "password" : String,
-  "passwordconfirm" : String,
+  // "password" : String,
+  // "passwordconfirm" : String,
 });
 
 const PATIENT = mongoose.model('patient', patientSchema);

@@ -7,7 +7,10 @@ const DOCTOR = require('../model/doctor')
 
 exports.book = async function (req, res, next) {
     try {
-        if (!req.body.date || !req.body.time || !req.body.name || !req.body.email || !req.body.gender || !req.body.message || !req.body.transactionid) {
+        // if (!req.body.date || !req.body.time || !req.body.name || !req.body.email || !req.body.gender || !req.body.message || !req.body.transactionid) {
+        //     throw new Error('Enter the details')
+        // }
+        if (!req.body.date || !req.body.time || !req.body.name || !req.body.email || !req.body.gender  ) {
             throw new Error('Enter the details')
         }
         const isValidDoctor = await DOCTOR.exists({ _id: req.body.doctor });

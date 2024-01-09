@@ -39,6 +39,15 @@ mongoose
 // const secretKey = generateSecretKey();
 
 // console.log("JWT Secret Key:", secretKey);
+
+
+
+
+
+// export const instance = new Razorpay({
+//   key_id: process.env.testID,
+//   key_secret: process.env.testSECRET,
+// });
 var app = express();
 
 // view engine setup
@@ -72,6 +81,8 @@ app.use("/book", bookRouter);
 app.use(function (req, res, next) {
   next(createError(404));
 });
+
+
 
 // error handler
 app.use(function (err, req, res, next) {
