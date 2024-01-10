@@ -4,7 +4,6 @@ var path = require("path");
 var cors = require("cors");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-
 var usersRouter = require("./routes/users");
 var userRouter = require("./routes/user");
 var serviceCategoryRouter = require("./routes/servicecategory");
@@ -23,6 +22,7 @@ var bookRouter = require("./routes/bookappointment");
 var paymentRoute = require("./routes/payment");
 const mongoose = require("mongoose");
 require("dotenv").config();
+const PORT = process.env.PORT ;
 mongoose
   .connect(
     
@@ -84,19 +84,27 @@ app.use(function (req, res, next) {
 });
 
 
-
+app.listen(PORT, () => {
+  console.log(`listening on port ${PORT}`);
+});
 
 
 
 // error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
-});
+
+
+// app.use(function (err, req, res, next) {
+//   // set locals, only providing error in development
+//   res.locals.message = err.message;
+//   res.locals.error = req.app.get("env") === "development" ? err : {};
+
+//   // render the error page
+//   res.status(err.status || 500);
+//   res.render("error");
+// });
+
+
+
 
 module.exports = app;
