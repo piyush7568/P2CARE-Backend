@@ -20,6 +20,7 @@ var blogCategoryRouter = require("./routes/blogcategory");
 var blogRouter = require("./routes/blog");
 var testimonialRouter = require("./routes/testimonial");
 var bookRouter = require("./routes/bookappointment");
+var paymentRoute = require("./routes/payment");
 const mongoose = require("mongoose");
 require("dotenv").config();
 mongoose
@@ -76,7 +77,7 @@ app.use("/blogcategory", blogCategoryRouter);
 app.use("/blog", blogRouter);
 app.use("/testimonial", testimonialRouter);
 app.use("/book", bookRouter);
-
+app.use("/payment", paymentRoute);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

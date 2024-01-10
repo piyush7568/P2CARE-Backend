@@ -31,7 +31,6 @@ exports.CHECKJWT = async function (req, res, next) {
 
 exports.addUser = async function (req, res, next) {
   try {
-     console.log(req.file);
     if (
       !req.body.Username ||
       !req.body.Name ||
@@ -80,7 +79,7 @@ exports.logIn = async function (req, res, next) {
     res.status(200).json({
       status: "Successful",
       message: "Login SucessFully",
-      token,
+      data: { token: token, user: checkUser },
     });
   } catch (error) {
     res.status(404).json({
