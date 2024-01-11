@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
 
+
 const hospitalSchema = new Schema({
   hospitalname: String,
   hospitaladdress: String,
@@ -26,6 +27,12 @@ const hospitalSchema = new Schema({
     enum: ["publish", "draft"],
     default: "publish",
   },
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Reviewhospital',
+    },
+  ],
 });
 
 const HOSPITAL = mongoose.model('hospital', hospitalSchema);
