@@ -49,7 +49,7 @@ exports.paymentVerification = async (req, res) => {
     //   paymentID: razorpay_payment_id,
     // });
     res.redirect(
-      `${process.env.P2CARE_USER}booking-complete?reference=${razorpay_payment_id}`
+      `${process.env.P2CARE_USER}/booking-complete?reference=${razorpay_payment_id}`
     );
   } else {
     res.status(400).json({
