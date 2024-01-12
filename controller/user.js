@@ -127,16 +127,18 @@ exports.DELETETUSER = async function (req, res, next) {
 //=======================EditUser====================
 
 exports.EDITUSER = async function (req, res, next) {
+  
   try {
     const getData = await USER.findById(req.params.id);
+    
     var data = { ...getData._doc, ...req.body };
-    if (data.Password) {
+    if (req.body.Password) {
       req.body.Password = await bcrypt.hash(req.body.Password, 10);
     }
     if (req.file) {
       req.body.profileImage = req.file.filename;
     }
-    const udata = await USER.findByIdAndUpdate(req.params.id, req.body);
+    const udata = await USER.findByIdAndUpdate(req.params.id, data);
     res.status(200).json({
       status: "Suceess",
       message: "user updated",

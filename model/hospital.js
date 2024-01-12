@@ -30,7 +30,7 @@ const hospitalSchema = new Schema({
   reviews: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Reviewhospital',
+      ref: "Review",
     },
   ],
 });

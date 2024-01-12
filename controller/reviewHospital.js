@@ -36,12 +36,11 @@ exports.Hospitalgetting = async function (req, res) {
         return res.status(404).json({ error: 'Hospital not found' });
       }
   
-      const reviews = hospital.reviews.map(review => ({
+      const reviews = hospital.reviews.map((review) => ({
         _id: review._id,
-        user: review.user,
+        user: review.username,
         rating: review.rating,
         comment: review.comment,
-       
       }));
   
       res.status(200).json({ reviews });
