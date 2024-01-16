@@ -38,6 +38,10 @@ router.get('/searchdoctor/:name',doctorController.searchDoctor);
 
 //searchDoctorbyId
 router.get("/searchdoctorbyid/:id", doctorController.searchDoctorById);
+router.get(
+  "/searchDoctorByFiltets",
+  doctorController.searchDoctorByFiltets
+);
 
 
 

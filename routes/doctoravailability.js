@@ -15,5 +15,10 @@ router.put('/updatetime/:id',userController.CHECKJWT,availableController.updatAv
 
 /* delete data */
 router.delete('/deletetime/:id',userController.CHECKJWT,availableController.deleteAvailable) 
+router.get(
+  "/searchdoctortime/:id",
+
+  availableController.searchAvailableDrID
+); 
 
 module.exports = router;

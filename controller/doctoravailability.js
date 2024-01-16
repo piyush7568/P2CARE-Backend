@@ -122,3 +122,26 @@ exports.deleteAvailable =  async function (req, res, next) {
      });
   }
 }
+
+
+//================SearchAvailability=======================
+
+exports.searchAvailableDrID =  async function (req, res, next) {
+  ;
+  try {
+     const data = await DOCTORAVAILABILITY.find({doctorid:req.params.id});
+     console.log(data);
+    res.status(200).json({
+      status: "successfull",
+      message: "data generated successfully",
+      data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status :  "fail", 
+      message : error.message
+     });
+  }
+}
+
+

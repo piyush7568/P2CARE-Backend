@@ -21,6 +21,8 @@ router.get('/searchpatient/:name',patientController.searchPatient);
 
 //searchpatientbyNumber
 router.get('/searchpatientbynumber/:number',patientController.searchPatientNumber);
+//searchpatientbyNumber
+router.get("/searchpatientbyid/:id", patientController.searchPatientByID);
 
 
 

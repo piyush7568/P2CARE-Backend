@@ -82,3 +82,23 @@ exports.deleteTime = async function (req, res, next) {
         })
     }
 }
+//=======================SearchTime====================
+
+exports.SearchTime = async function (req, res, next) {
+    console.log(req.params.id);
+  try {
+
+    const data = await TIME.findById(req.params.id);
+
+    res.status(200).json({
+      status: "Sucessfull",
+      message: "Data Found",
+      data,
+    });
+  } catch (error) {
+    res.status(404).json({
+      status: "Fail",
+      message: error.message,
+    });
+  }
+};

@@ -110,7 +110,7 @@ exports.allAsign = async function (req, res, next) {
 
   exports.deleteAsign = async function (req, res, next){
     try {
-        await ASIGNDOCTOR.findByIdAndDelete(req.params.id)
+        await ASIGNDOCTOR.findByIdAndDelete(req.params?.id)
         res.status(200).json({
             status : "Successfull",
             message : "Deleted data"

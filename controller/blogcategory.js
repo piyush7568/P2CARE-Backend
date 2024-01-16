@@ -98,7 +98,7 @@ exports.searchCategory = async function (req, res, next) {
 exports.searchCategorybyID = async function (req, res, next) {
   try {
     const data = await BLOGCATEGORY.findById(req.params.id)
-    // console.log(data);
+    console.log(data);
     res.status(200).json({
       status: "Successfull",
       message: "Data is found",

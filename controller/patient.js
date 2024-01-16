@@ -127,3 +127,20 @@ exports.searchPatientNumber = async function (req, res, next) {
         })
     }
 }
+
+//=====================searchDoctorbyId=====================
+exports.searchPatientByID = async function (req, res, next) {
+    try {
+        const data = await PATIENT.findById(req.params.id);
+        res.status(200).json({
+            status: "successfull",
+            message: "Data is found",
+            data
+        })
+    } catch (error) {
+        res.status(404).json({
+            status: "Fail",
+            message: error.message
+        })
+    }
+}

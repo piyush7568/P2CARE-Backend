@@ -40,7 +40,8 @@ exports.addUser = async function (req, res, next) {
       throw new Error("Please Enter Valid Feild");
     }
     req.body.Password = await bcrypt.hash(req.body.Password, 10);
-    // console.log(req.body);
+    console.log(req.body);
+
     const data = await USER.create(req.body);
     res.status(201).json({
       status: "Successful",
@@ -60,6 +61,7 @@ exports.addUser = async function (req, res, next) {
 exports.logIn = async function (req, res, next) {
   try {
     const checkUser = await USER.findOne({ Email: req.body.Email });
+    console.log(checkUser);
     if (!checkUser) {
       throw new Error("User not found");
     }
@@ -67,6 +69,7 @@ exports.logIn = async function (req, res, next) {
       req.body.Password,
       checkUser.Password
     );
+    console.log(checkPass);
     if (!checkPass) {
       throw new Error("Password is Wrong");
     }

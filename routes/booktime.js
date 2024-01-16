@@ -1,19 +1,31 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-const timeController = require("../controller/time")
-const userController = require('../controller/user')
-
+const timeController = require("../controller/time");
+const userController = require("../controller/user");
 
 //addTime
-router.post('/addtime',userController.CHECKJWT,timeController.addTime);
+router.post("/addtime", userController.CHECKJWT, timeController.addTime);
 
 //allTime
-router.get('/alltime',timeController.allTime);
+router.get("/alltime", timeController.allTime);
 
 //addTime
-router.put('/updatetime/:id',userController.CHECKJWT,timeController.updateTime);
+router.put(
+  "/updatetime/:id",
+  userController.CHECKJWT,
+  timeController.updateTime
+);
 
 //addTime
-router.delete('/deletetime/:id',userController.CHECKJWT,timeController.deleteTime);
+router.delete(
+  "/deletetime/:id",
+  userController.CHECKJWT,
+  timeController.deleteTime
+);
+router.get(
+  "/searchtime/:id",
+  userController.CHECKJWT,
+  timeController.SearchTime
+);
 
 module.exports = router;
