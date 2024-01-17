@@ -241,6 +241,7 @@ exports.searchDoctorById = async function (req, res, next) {
 
 //=====================searchDoctorFilters=====================
 exports.searchDoctorByFiltets = async function (req, res, next) {
+  console.log('user',req.token);
   try {
     const currentpage = parseInt(req.query.page) - 1 || 0;
     const limit = parseInt(req.query.limit) || 5;

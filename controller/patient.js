@@ -34,7 +34,7 @@ exports.addPatient = async function (req, res, next) {
 //=====================allPatient====================
 
 exports.allPatient = async function (req, res, next) {
-
+  
     try {
         const data = await PATIENT.find()
         res.status(200).json({
