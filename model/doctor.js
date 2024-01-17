@@ -10,11 +10,11 @@ const doctorSchema = new Schema({
   doctorCode: String,
   departmentName: String,
   departmentCode: String,
-  experties: [String], //category
-  // designation: [String],
+  experties: [String],
+
   designation: String,
   experienceInfo: [String],
-  slug: String,
+
   location: String,
   description: String,
   shortDescription: String,
@@ -42,6 +42,18 @@ const doctorSchema = new Schema({
     enum: ["publish", "draft"],
     default: "draft",
   },
+  isBlocked: {
+    type: Boolean,
+    default: false,
+  },
+  ratings: [
+    {
+      star: Number,
+      comment: String,
+      postedby: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+    },
+  ],
+  totalratings: { type: String, default: 0 },
 });
 
 

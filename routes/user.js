@@ -14,6 +14,9 @@ router.post('/login',userController.logIn);
 //Login
 router.post("/loginadmin", userController.logInAdmin);
 
+
+
+
 //Alluser
 router.get("/all", userController.CHECKJWT, isAdmin,userController.ALLUSER);
 

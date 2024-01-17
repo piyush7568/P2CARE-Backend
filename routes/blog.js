@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 const blogController = require("../controller/blog")
 const userController = require('../controller/user')
-const multer  = require('multer')
+const multer  = require('multer');
+const { isAdmin } = require('../middleware/authMidleware');
 
 
 /* GET users listing. */
@@ -24,16 +25,33 @@ const cpUpload = upload.fields([{ name: 'blogimage', maxCount: 1 }, { name: 'ogm
 
 
 //addBlog
-router.post('/addblog',cpUpload,userController.CHECKJWT,blogController.newBlog);
+router.post(
+  "/addblog",
+  cpUpload,
+  userController.CHECKJWT,
+  isAdmin,
+  blogController.newBlog
+);
 
 //allBlog
 router.get('/allblog',blogController.allBlog);
 
 //updateBlog
-router.put('/editblog/:id',cpUpload,userController.CHECKJWT,blogController.updateBlog);
+router.put(
+  "/editblog/:id",
+  cpUpload,
+  userController.CHECKJWT,
+  isAdmin,
+  blogController.updateBlog
+);
 
 //deleteBlog
-router.delete('/deleteblog/:id',userController.CHECKJWT,blogController.deleteBlog);
+router.delete(
+  "/deleteblog/:id",
+  userController.CHECKJWT,
+  isAdmin,
+  blogController.deleteBlog
+);
 
 //searchBlogbyname
 router.get('/searchblog/:name',blogController.searchBlog);
@@ -42,7 +60,12 @@ router.get('/searchblog/:name',blogController.searchBlog);
 router.get('/searchblogbyid/:id',blogController.searchBlogbyID);
 
 //deleteAllBlog
-router.delete('/deleteallblog',userController.CHECKJWT,blogController.deleteAllBlog);
+router.delete(
+  "/deleteallblog",
+  userController.CHECKJWT,
+  isAdmin,
+  blogController.deleteAllBlog
+);
 
 
 

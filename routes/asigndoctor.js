@@ -1,10 +1,16 @@
 var express = require('express');
 var router = express.Router();
 const userController = require('../controller/user')
-const asignController = require('../controller/asigndoctor')
+const asignController = require('../controller/asigndoctor');
+const { isAdmin } = require('../middleware/authMidleware');
 
 //asigndoctor
-router.post('/add',userController.CHECKJWT,asignController.asignDoctor);
+router.post(
+  "/add",
+  userController.CHECKJWT,
+  
+  asignController.asignDoctor
+);
 
 //allasigndoctor
 router.get('/allasign',asignController.allAsign);

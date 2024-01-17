@@ -212,3 +212,65 @@ exports.searchHospitalbyId = async function (req, res, next) {
         })
     }
 }
+
+
+
+// ------------------- Creating a new reting session ------------------
+exports.rating = async (req, res) => {
+  const { _id } = req.user;
+  const { star, hospitalID, comment } = req.body;
+  try {
+    const hospital = await HOSPITAL.findById(hospitalID);
+    let alreadyrated = hospital.ratings.find(
+      (userId) => userId.postedby.toString() === _id.toString()
+    );
+
+    if (alreadyrated) {
+      const updateRatings = await HOSPITAL.updateOne(
+        {
+          ratings: { $elemMatch: alreadyrated },
+        },
+        {
+          $set: { "ratings.$.star": star, "ratings.$.comment": comment },
+        },
+        { new: true }
+      );
+      // res.json(updateRatings)
+    } else {
+      const rateProduct = await HOSPITAL.findByIdAndUpdate(
+        hospitalID,
+        {
+          $push: {
+            ratings: {
+              star: star,
+              comment: comment,
+              postedby: _id,
+            },
+          },
+        },
+        {
+          new: true,
+        }
+      );
+      // res.json(rateProduct);
+    }
+
+    const getallrating = await HOSPITAL.findById(hospitalID);
+    let totalratings = getallrating.ratings.length;
+    let ratingsum = getallrating.ratings
+      .map((iten) => iten.star)
+      .reduce((prev, curr) => prev + curr, 0);
+    let orignalrating = Math.round(ratingsum / totalratings);
+    let finalhospital = await HOSPITAL.findByIdAndUpdate(
+      hospitalID,
+      {
+        totalratings: orignalrating,
+      },
+      { new: true }
+    );
+
+    res.json(finalhospital);
+  } catch (error) {
+    throw new Error(error);
+  }
+};

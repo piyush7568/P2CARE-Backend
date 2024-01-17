@@ -16,7 +16,6 @@ exports.addDoctor = async function (req, res, next) {
       !req.body.designation ||
       !req.body.experties ||
       !req.body.specialities ||
-      !req.body.slug ||
       !req.body.location ||
       !req.body.description ||
       !req.body.shortDescription ||
@@ -169,7 +168,7 @@ exports.updateDoctor = async function (req, res, next) {
         throw new Error("Invalid status value");
       }
     }
-    console.log('data',data);
+    console.log("data", data);
     console.log(req.body);
 
     const udata = await DOCTOR.findByIdAndUpdate(req.params.id, data);
@@ -239,23 +238,85 @@ exports.searchDoctorById = async function (req, res, next) {
   }
 };
 
+// Creating a new reting session
+exports.rating = async (req, res) => {
+  const { _id } = req.user;
+  const { star, doctorID, comment } = req.body;
+  try {
+    const doctor = await DOCTOR.findById(doctorID);
+    let alreadyrated = doctor.ratings.find(
+      (userId) => userId.postedby.toString() === _id.toString()
+    );
+
+    if (alreadyrated) {
+      const updateRatings = await DOCTOR.updateOne(
+        {
+          ratings: { $elemMatch: alreadyrated },
+        },
+        {
+          $set: { "ratings.$.star": star, "ratings.$.comment": comment },
+        },
+        { new: true }
+      );
+      // res.json(updateRatings)
+    } else {
+      const rateProduct = await DOCTOR.findByIdAndUpdate(
+        doctorID,
+        {
+          $push: {
+            ratings: {
+              star: star,
+              comment: comment,
+              postedby: _id,
+            },
+          },
+        },
+        {
+          new: true,
+        }
+      );
+      // res.json(rateProduct);
+    }
+
+    const getallrating = await DOCTOR.findById(doctorID);
+    let totalratings = getallrating.ratings.length;
+    let ratingsum = getallrating.ratings
+      .map((iten) => iten.star)
+      .reduce((prev, curr) => prev + curr, 0);
+    let orignalrating = Math.round(ratingsum / totalratings);
+    let finaldoctor = await DOCTOR.findByIdAndUpdate(
+      doctorID,
+      {
+        totalratings: orignalrating,
+      },
+      { new: true }
+    );
+
+    res.json(finaldoctor);
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 //=====================searchDoctorFilters=====================
 exports.searchDoctorByFiltets = async function (req, res, next) {
-  console.log('user',req.token);
   try {
     const currentpage = parseInt(req.query.page) - 1 || 0;
     const limit = parseInt(req.query.limit) || 5;
     const name = req.query.name || "";
     const specialities = req.query.specialities || "";
-    let sort = req.query.sort || 1;
-    let minAMT = req.query.minAmount || 0;
-    let maxAMT = req.query.maxAmount || 1000;
+    const sort = req.query.sort || 1;
+    const minAMT = req.query.minAmount || 0;
+    const maxAMT = req.query.maxAmount || 1000;
+    const Star = req.query.rating||'';
 
-var method = { doctorName:Number(sort) };
-   
+    var method = { doctorName: Number(sort) };
+
     const data = await DOCTOR.find({
       doctorName: { $regex: name, $options: "i" },
       specialities: { $regex: specialities },
+       totalratings: { $regex: Star },
+
       price: { $gte: minAMT, $lte: maxAMT },
     })
       .sort(method)
@@ -264,14 +325,12 @@ var method = { doctorName:Number(sort) };
 
     const total = await DOCTOR.countDocuments({
       doctorName: { $regex: name, $options: "i" },
-      
       specialities: { $regex: specialities },
+      totalratings: { $regex: Star ,  $options: "i" },
       price: { $gte: minAMT, $lte: maxAMT },
     });
-    const totalPages = Math.ceil(total / limit) 
-        
+    const totalPages = Math.ceil(total / limit);
 
-    console.log(total);
     res.status(200).json({
       status: "Successfull",
       message: "Data is found",
@@ -282,5 +341,46 @@ var method = { doctorName:Number(sort) };
       status: "Fail",
       message: error.message,
     });
+  }
+};
+
+// Block the Doctor
+
+exports.blockDoctor = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const block = await DOCTOR.findByIdAndUpdate(
+      id,
+      {
+        isBlocked: true,
+      },
+      {
+        new: true,
+      }
+    );
+    res.json({
+      message: "Doctor Blocked",
+    });
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+exports.unblockDoctor = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const unblock = DOCTOR.findByIdAndUpdate(
+      id,
+      {
+        isBlocked: false,
+      },
+      {
+        new: true,
+      }
+    );
+    res.json({
+      message: "Doctor UnBlocked",
+    });
+  } catch (error) {
+    throw new Error(error);
   }
 };

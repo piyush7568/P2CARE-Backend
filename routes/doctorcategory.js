@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 const doctorCategoryController = require("../controller/doctorcategory")
 const userController = require('../controller/user')
-const multer  = require('multer')
+const multer  = require('multer');
+const { isAdmin } = require('../middleware/authMidleware');
 
 /* GET users listing. */
 const storage = multer.diskStorage({
@@ -19,16 +20,33 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 //addCategory
-router.post('/addcategory',upload.single('image'),userController.CHECKJWT,doctorCategoryController.newCategory);
+router.post(
+  "/addcategory",
+  upload.single("image"),
+  userController.CHECKJWT,
+  isAdmin,
+  doctorCategoryController.newCategory
+);
 
 //allCategory
 router.get('/allcategory',doctorCategoryController.allCategory);
 
 //updateCategory
-router.put('/updatecategory/:id',upload.single('image'),userController.CHECKJWT,doctorCategoryController.updateCategory);
+router.put(
+  "/updatecategory/:id",
+  upload.single("image"),
+  userController.CHECKJWT,
+  isAdmin,
+  doctorCategoryController.updateCategory
+);
 
 //deleteCategory
-router.delete('/deletecategory/:id',userController.CHECKJWT,doctorCategoryController.deleteCategory);
+router.delete(
+  "/deletecategory/:id",
+  userController.CHECKJWT,
+  isAdmin,
+  doctorCategoryController.deleteCategory
+);
 
 //searchCategorybyname
 router.get('/searchcategory/:name',doctorCategoryController.searchCategory);
@@ -37,6 +55,11 @@ router.get('/searchcategory/:name',doctorCategoryController.searchCategory);
 router.get('/searchcategorybyid/:id',doctorCategoryController.searchCategorybyID);
 
 //deleteAllCategory
-router.delete('/deleteallcategory',userController.CHECKJWT,doctorCategoryController.deleteAllCategory);
+router.delete(
+  "/deleteallcategory",
+  userController.CHECKJWT,
+  isAdmin,
+  doctorCategoryController.deleteAllCategory
+);
 
 module.exports = router;

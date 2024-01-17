@@ -11,28 +11,23 @@ const hospitalSchema = new Schema({
   closingtime: String,
   shortdescription: String,
   service: [String],
-  // service: {
-  //   type: mongoose.Types.ObjectId,
-  //   ref: "service",
-  // },
-
+ 
   category: [String],
-  // category: {
-  //   type: mongoose.Types.ObjectId,
-  //   ref: "doctorcategory",
-  // },
+
   hospitallogo: String,
+  ratings: [
+    {
+      star: Number,
+      comment: String,
+      postedby: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+    },
+  ],
+  totalratings: { type: String, default: 0 },
   status: {
     type: String,
     enum: ["publish", "draft"],
     default: "publish",
   },
-  reviews: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Review",
-    },
-  ],
 });
 
 const HOSPITAL = mongoose.model('hospital', hospitalSchema);

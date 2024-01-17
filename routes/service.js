@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 const serviceController = require("../controller/service")
 const userController = require('../controller/user')
-const multer  = require('multer')
+const multer  = require('multer');
+const { isAdmin } = require('../middleware/authMidleware');
 
 
 /* GET users listing. */
@@ -29,6 +30,8 @@ router.post(
   "/addservice",
   cpUpload,
   userController.CHECKJWT,
+  isAdmin,
+  
   serviceController.newService
 );
 
@@ -36,10 +39,21 @@ router.post(
 router.get('/allservice',serviceController.allService);
 
 //updateService
-router.put('/editservice/:id',cpUpload,userController.CHECKJWT,serviceController.updateService);
+router.put(
+  "/editservice/:id",
+  cpUpload,
+  userController.CHECKJWT,
+  isAdmin,
+  serviceController.updateService
+);
 
 //deleteService
-router.delete('/deleteservice/:id',userController.CHECKJWT,serviceController.deleteService);
+router.delete(
+  "/deleteservice/:id",
+  userController.CHECKJWT,
+  isAdmin,
+  serviceController.deleteService
+);
 
 //searchServicebyname
 router.get('/searchservice/:name',serviceController.searchService);

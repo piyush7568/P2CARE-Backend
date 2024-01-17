@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 //==================================checkToken===============
 exports.CHECKJWT = async function (req, res, next) {
   try {
-    // console.log(req.headers);
+    
     const token = req.headers.authorization;
 
     if (!token) {
@@ -45,7 +45,7 @@ exports.addUser = async function (req, res, next) {
       throw new Error("This email already exist");
     }
     req.body.Password = await bcrypt.hash(req.body.Password, 10);
-    console.log(req.body);
+    
 
     const data = await USER.create(req.body);
     res.status(201).json({
@@ -84,7 +84,7 @@ exports.addAdmin = async function (req, res, next) {
     }
     req.body.Password = await bcrypt.hash(req.body.Password, 10);
     req.body.Role = "ADMIN";
-    console.log(req.body);
+    
 
     const data = await USER.create(req.body);
     res.status(201).json({
@@ -110,7 +110,7 @@ exports.addAdmin = async function (req, res, next) {
 exports.logIn = async function (req, res, next) {
   try {
     const checkUser = await USER.findOne({ Email: req.body.Email });
-    console.log(checkUser);
+    
     if (!checkUser) {
       throw new Error("User not found");
     }
@@ -118,7 +118,7 @@ exports.logIn = async function (req, res, next) {
       req.body.Password,
       checkUser.Password
     );
-    console.log(checkPass);
+    
     if (!checkPass) {
       throw new Error("Password is Wrong");
     }
@@ -151,7 +151,7 @@ exports.logIn = async function (req, res, next) {
 exports.logInAdmin = async function (req, res, next) {
   try {
     const checkUser = await USER.findOne({ Email: req.body.Email });
-    console.log(checkUser);
+    
     if (!checkUser) {
       throw new Error("User not found");
     }
@@ -162,7 +162,7 @@ exports.logInAdmin = async function (req, res, next) {
       req.body.Password,
       checkUser.Password
     );
-    console.log(checkPass);
+    
     if (!checkPass) {
       throw new Error("Password is Wrong");
     }

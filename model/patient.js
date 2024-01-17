@@ -13,6 +13,7 @@ const patientSchema = new Schema({
   address: String,
   // "password" : String,
   // "passwordconfirm" : String,
+  // bimari : d category
 });
 
 const PATIENT = mongoose.model("patient", patientSchema);

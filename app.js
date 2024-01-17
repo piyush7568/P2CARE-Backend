@@ -20,9 +20,7 @@ var blogRouter = require("./routes/blog");
 var testimonialRouter = require("./routes/testimonial");
 var bookRouter = require("./routes/bookappointment");
 var paymentRoute = require("./routes/payment");
-const {reviewRouter} =require("./routes/reviewDoctor")
-// const {reviewHosptialRouter}=require("./routes/reviewHospital")
-const {reviewHosptialRouter}=require("./routes/reviewHospital")
+
  const mongoose = require("mongoose");
 require("dotenv").config();
 // const PORT = process.env.PORT ;
@@ -81,9 +79,6 @@ app.use("/blog", blogRouter);
 app.use("/testimonial", testimonialRouter);
 app.use("/book", bookRouter);
 app.use("/payment", paymentRoute);
-app.use("/review", reviewRouter);
-// app.use("/reviewhospital",reviewHosptialRouter)
-app.use("/reviewhos",reviewHosptialRouter)
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

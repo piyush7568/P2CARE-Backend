@@ -2,9 +2,15 @@ var express = require("express");
 var router = express.Router();
 const timeController = require("../controller/time");
 const userController = require("../controller/user");
+const { isAdmin } = require("../middleware/authMidleware");
 
 //addTime
-router.post("/addtime", userController.CHECKJWT, timeController.addTime);
+router.post(
+  "/addtime",
+  userController.CHECKJWT,
+  
+  timeController.addTime
+);
 
 //allTime
 router.get("/alltime", timeController.allTime);
