@@ -315,7 +315,7 @@ exports.searchDoctorByFiltets = async function (req, res, next) {
     const data = await DOCTOR.find({
       doctorName: { $regex: name, $options: "i" },
       specialities: { $regex: specialities },
-       totalratings: { $regex: Star },
+      //  totalratings: { $regex: Star },
 
       price: { $gte: minAMT, $lte: maxAMT },
     })
@@ -326,7 +326,7 @@ exports.searchDoctorByFiltets = async function (req, res, next) {
     const total = await DOCTOR.countDocuments({
       doctorName: { $regex: name, $options: "i" },
       specialities: { $regex: specialities },
-      totalratings: { $regex: Star ,  $options: "i" },
+      // totalratings: { $regex: Star  },
       price: { $gte: minAMT, $lte: maxAMT },
     });
     const totalPages = Math.ceil(total / limit);

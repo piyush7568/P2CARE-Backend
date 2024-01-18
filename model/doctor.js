@@ -53,7 +53,7 @@ const doctorSchema = new Schema({
       postedby: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
     },
   ],
-  totalratings: { type: String, default: 0 },
+  totalratings: { type: String ,default:0},
 });
 
 
