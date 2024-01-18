@@ -133,6 +133,7 @@ exports.logIn = async function (req, res, next) {
       message: "Login SucessFully",
       data: {
         token: token,
+        _id: checkUser._id,
         Username: checkUser.Username,
         Name: checkUser.Name,
         Email: checkUser.Email,
@@ -178,7 +179,7 @@ exports.logInAdmin = async function (req, res, next) {
       data: {
         token: token,
         Username: checkUser.Username,
-        // Password: checkUser.Password,
+        _id: checkUser._id,
         Email: checkUser.Email,
         Name: checkUser.Name,
       },
